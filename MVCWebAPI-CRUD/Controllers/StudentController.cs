@@ -1,4 +1,5 @@
 ﻿using MVCWebAPI_CRUD.Models;
+using MVCWebAPI_CRUD.ProjectConstents;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,7 +21,7 @@ namespace MVCWebAPI_CRUD.Controllers
 
             SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand("StudentDetails", connection);
+            SqlCommand command = new SqlCommand(StoredProcedures.StudentDetails, connection);
             command.Parameters.AddWithValue("ID", id);
             command.CommandType = CommandType.StoredProcedure;
             SqlDataReader sqlDataReader = command.ExecuteReader();
@@ -46,10 +47,10 @@ namespace MVCWebAPI_CRUD.Controllers
         {
             SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand("StudentSave", connection);
-            command.Parameters.AddWithValue("ID", student.ID);
-            command.Parameters.AddWithValue("Name", RandomString(5,false));
-            command.Parameters.AddWithValue("Password", student.Name);
+
+            SqlCommand command = new SqlCommand(StoredProcedures.StudentSave, connection);
+            command.Parameters.AddWithValue("Name", student.Name);
+            command.Parameters.AddWithValue("Password", RandomString(5, false) );
             command.Parameters.AddWithValue("Malayalam", student.Malayalam);
             command.Parameters.AddWithValue("English", student.English);
             command.Parameters.AddWithValue("Hindi", student.Hindi);
